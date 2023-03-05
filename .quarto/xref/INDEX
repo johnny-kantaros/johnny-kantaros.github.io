@@ -1,0 +1,17 @@
+{
+  "posts/example-blog-post/index.ipynb": {
+    "index.html": "19707a3c"
+  },
+  "index.qmd": {
+    "index.html": "ab7e5ced"
+  },
+  "about.qmd": {
+    "about.html": "eca73e45"
+  },
+  "posts/Perceptron/Perceptron.ipynb": {
+    "Perceptron.html": "bee5e723"
+  },
+  "posts/gradient-descent/LR.ipynb": {
+    "LR.html": "04d63d9b"
+  }
+}
