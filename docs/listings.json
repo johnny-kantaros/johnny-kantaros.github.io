@@ -2,8 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/gradient-descent/LR.html",
-      "/posts/Perceptron/Perceptron.html",
+      "/posts/Blog2-GD/LR.html",
+      "/posts/Blog1-Perceptron/Perceptron.html",
       "/posts/example-blog-post/index.html"
     ]
   }
