@@ -132,7 +132,6 @@ background-size: cover;
     }
     </style>
 
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -212,18 +211,13 @@ background-size: cover;
 
 <section id="logistic-regression-using-gradient-descent" class="level1">
 <h1>Logistic Regression using Gradient Descent</h1>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction:</h2>
+<section id="introduction" class="level3">
+<h3 class="anchored" data-anchor-id="introduction"><u>Introduction</u></h3>
 <p>In this blog post, I implement the Logistic Regression algorithm to linearly classify data. Unlike the Perceptron algorithm, which was implemented in blog post 1, the data does not have to be linearly separable for the LR algorithm to converge and provide an accurate weight vector, w, to separate our data.</p>
-<p>To implement this algorithm, we rely on Gradient Descent to perform most of the heavy lifting. Gradient Descent is an optimization algorithm which can be performed to minimize convex Empirical Loss functions.</p>
-<p>Here is the basic form of gradient descent:</p>
-<p><span class="math display">\[\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1, ..., \theta_n)\]</span></p>
-<p>where <span class="math inline">\(\theta_j\)</span> is the <span class="math inline">\(j^{th}\)</span> parameter, <span class="math inline">\(\alpha\)</span> is the learning rate, and <span class="math inline">\(J(\theta_0, \theta_1, ..., \theta_n)\)</span> is the cost function. The partial derivative term <span class="math inline">\(\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1, ..., \theta_n)\)</span> represents the gradient of the cost function with respect to the <span class="math inline">\(j^{th}\)</span> parameter.</p>
-<p>In the case of Logistic Regression, we will be seeking to minimize the Logistic Loss function, which has the form:</p>
-<p><span class="math display">\[-y\log(\sigma(\hat{y})) - (1-y)\log(1-\sigma(\hat{y}))\]</span></p>
+<p>To implement this algorithm, we rely on Gradient Descent to perform most of the heavy lifting. Gradient Descent is an optimization algorithm which can be performed to minimize convex Empirical Loss functions. As implied in the name, gradient descent computes the <i>gradients</i> of our loss function and takes incremental steps towards an optimal weight vector.</p>
 </section>
-<section id="implementation" class="level2">
-<h2 class="anchored" data-anchor-id="implementation">Implementation:</h2>
+<section id="implementation" class="level3">
+<h3 class="anchored" data-anchor-id="implementation">Implementation:</h3>
 <p><a href="https://github.com/johnny-kantaros/gradient-descent/blob/main/LogisticRegression.py">See Source Code</a></p>
 <p>To implement my fit() algorithm, I followed these steps:</p>
 <ol type="1">
@@ -238,20 +232,17 @@ background-size: cover;
 </ol></li>
 </ol>
 </section>
-<section id="experiments" class="level2">
-<h2 class="anchored" data-anchor-id="experiments">Experiments:</h2>
+<section id="experiments" class="level3">
+<h3 class="anchored" data-anchor-id="experiments">Experiments:</h3>
 <p>In my following experiments, I test both my regular and stochastic gradient descent algorithm using both linearly separable and non-linearly separable data. As you will see, this algorithm is powerful and has the ability to quickly classify linearly separable data with 100% accuracy. Additionally, as mentioned above, this algorithm is superior to Perceptron, as it can still converge on non-linearly separable data. Finally, you will see how batch size affects convergence with stochastic gradient descent.</p>
-<section id="experiment-1-fitting-our-logistic-regression-model-on-linearly-seperable-data" class="level3">
-<h3 class="anchored" data-anchor-id="experiment-1-fitting-our-logistic-regression-model-on-linearly-seperable-data">Experiment 1: Fitting our Logistic Regression model on Linearly Seperable Data</h3>
-<section id="import-relevant-libraries" class="level4">
-<h4 class="anchored" data-anchor-id="import-relevant-libraries">1. Import relevant libraries</h4>
+<section id="experiment-1-fitting-our-logistic-regression-model-on-linearly-seperable-data" class="level4">
+<h4 class="anchored" data-anchor-id="experiment-1-fitting-our-logistic-regression-model-on-linearly-seperable-data">Experiment 1: Fitting our Logistic Regression model on Linearly Seperable Data</h4>
+<p>First, we need to import numpy and my implementation class for logistic regression:</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> LogisticRegression <span class="im">import</span> LogisticRegression</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="make-linearly-separable-data" class="level4">
-<h4 class="anchored" data-anchor-id="make-linearly-separable-data">2. Make Linearly separable data</h4>
+<p>Next, lets create a batch of linearly separable data. In this case, linearly separable implies that a 2d line could separate our data cluster into two distinct groups. To make these blobs, we will utilize sklearn’s <code>make_blobs</code> module. This data will be used to test our algorithm.</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
@@ -264,14 +255,13 @@ background-size: cover;
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c <span class="op">=</span> y)</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Feature 1"</span>)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>title <span class="op">=</span> plt.gca().set_title(<span class="st">"Linearly Separable Data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="LR_files/figure-html/cell-3-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-</section>
-<section id="fit-our-logistic-regression-model" class="level4">
-<h4 class="anchored" data-anchor-id="fit-our-logistic-regression-model">3. Fit our Logistic Regression model</h4>
+<p>Now, we can create an instance of our logistic regression algorithm. To do this, we can call <code>LogisticRegression()</code> from our previously implemented class. Next, we can fit our algorithm using the linearly separable blob data:</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make model object</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LogisticRegression()</span>
@@ -283,11 +273,9 @@ background-size: cover;
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Alpha (learning rate), </span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Max_epochs (max steps)</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>LR.fit(X, y, <span class="fl">.01</span>, <span class="dv">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>LR.fit(X, y, <span class="fl">.001</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="check-our-accuracy-weight-vector-loss-history" class="level4">
-<h4 class="anchored" data-anchor-id="check-our-accuracy-weight-vector-loss-history">4. Check our accuracy, weight vector, loss history</h4>
+<p>After fitting our data, we can examine the model’s outputs and accuracy:</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> LR.w</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>prev_losses <span class="op">=</span> LR.loss_history[<span class="op">-</span><span class="dv">10</span>:]</span>
@@ -297,17 +285,12 @@ background-size: cover;
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Loss History (Last 10 values):"</span>, prev_losses)</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy:"</span>, accuracy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Weight vector: [0.53060037 1.03812894 0.22214551]
-Loss History (Last 10 values): [0.01359064301028081, 0.013567902748912198, 0.013545242129391994, 0.013522660729089156, 0.013500158128371145, 0.013477733910577258, 0.013455387661992462, 0.013433118971821187, 0.01341092743216168, 0.013388812637980507]
+<pre><code>Weight vector: [1.02123758 0.918559   0.07719487]
+Loss History (Last 10 values): [0.006189285889420821, 0.006188904213825039, 0.006188522588510359, 0.006188141013466678, 0.006187759488683866, 0.006187378014151779, 0.006186996589860317, 0.006186615215799372, 0.006186233891958806, 0.00618585261832852]
 Accuracy: 1.0</code></pre>
 </div>
 </div>
-</section>
-<section id="our-model-has-100-accuracy.-great-now-lets-visualize" class="level4">
-<h4 class="anchored" data-anchor-id="our-model-has-100-accuracy.-great-now-lets-visualize">Our model has 100% accuracy. Great! Now, let’s visualize:</h4>
-</section>
-<section id="visualize" class="level4">
-<h4 class="anchored" data-anchor-id="visualize">5. Visualize</h4>
+<p>Our model has 100% accuracy. This means the model perfectly separated the input data, which was expected. Now, lets visualize our data!</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">123</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -326,27 +309,29 @@ Accuracy: 1.0</code></pre>
 <p><img src="LR_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
 </div>
 </div>
+<p>In this figure, we can see that the algorithm provides a weight vector which perfectly separates our data into two groups. This implies that our algorithm can indeed classify linearly separable data. Now, we can create a time series analysis of our gradient throughout the course of the fitting process.</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize gradient</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="bu">len</span>(LR.loss_history)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plt.plot(np.arange(num_steps) <span class="op">+</span> <span class="dv">1</span>, LR.loss_history, label <span class="op">=</span> <span class="st">"gradient"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Gradient over fitting process."</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>plt.loglog()</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>legend <span class="op">=</span> plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Iteration"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Loss"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>legend <span class="op">=</span> plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="LR_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
 </div>
 </div>
+<p>As we can see, while the gradient decreases slow in the first few iterations, it really starts falling fast towards the end. The model stops after 1000 steps. Something to note in this diagram is that the gradient still seems to be converging. A large problem I faced in this project was having a linearly separable model fully converge. Although it will achieve 100% accuracy and be functional for all intensive purposes, the gradient takes an incredibly long time to fully converge (something like 27,000 steps). Even when it does “converge”, it does not have the appealing shape as we will see in the next plot.</p>
 </section>
-</section>
-<section id="experiment-2-fitting-our-model-on-non-linear-data" class="level3">
-<h3 class="anchored" data-anchor-id="experiment-2-fitting-our-model-on-non-linear-data">Experiment 2: Fitting our model on non-linear data:</h3>
-<section id="unlike-the-perceptron-model-our-lr-model-should-still-converge-on-non-linearly-seperable-data.-although-the-accuracy-will-not-be-100-we-can-still-create-a-fairly-accurate-and-dependable-model." class="level5">
-<h5 class="anchored" data-anchor-id="unlike-the-perceptron-model-our-lr-model-should-still-converge-on-non-linearly-seperable-data.-although-the-accuracy-will-not-be-100-we-can-still-create-a-fairly-accurate-and-dependable-model.">Unlike the Perceptron model, our LR model should still converge on non-linearly seperable data. Although the accuracy will not be 100%, we can still create a fairly accurate and dependable model.</h5>
-</section>
-<section id="creating-non-linearly-separable-data" class="level4">
-<h4 class="anchored" data-anchor-id="creating-non-linearly-separable-data">1. Creating non-linearly separable data</h4>
+<section id="experiment-2-fitting-our-model-on-non-linear-data" class="level4">
+<h4 class="anchored" data-anchor-id="experiment-2-fitting-our-model-on-non-linear-data">Experiment 2: Fitting our model on non-linear data:</h4>
+<p>Unlike the Perceptron model, our LR model should still converge on non-linearly separable data. Although the accuracy will not be 100%, we can still create a fairly accurate and dependable model. This can be important in applications where obtaining a high accuracy is still valuable, even if it’s not perfect.</p>
+<p>To perform this experiment, we will again use the <code>make_blobs</code> module. This time, however, we will pick centers which force our data to overlap. By doing so, we can observe our algorithm’s performance on non-linearly separable data.</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
@@ -359,21 +344,17 @@ Accuracy: 1.0</code></pre>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c <span class="op">=</span> y)</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Feature 1"</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>title <span class="op">=</span> plt.gca().set_title(<span class="st">"Non-linearly separable data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="LR_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-</section>
-<section id="fitting-our-model" class="level4">
-<h4 class="anchored" data-anchor-id="fitting-our-model">2. Fitting our model</h4>
+<p>Once again, we can fit our model and examine the accuracy:</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LogisticRegression()</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>LR.fit(X, y, <span class="fl">.01</span>, <span class="dv">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>LR.fit(X, y, <span class="fl">.01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="similar-to-above-lets-analyze-our-weight-vecor-loss-history-and-accuracy" class="level4">
-<h4 class="anchored" data-anchor-id="similar-to-above-lets-analyze-our-weight-vecor-loss-history-and-accuracy">3. Similar to above, let’s analyze our weight vecor, loss history, and accuracy</h4>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> LR.w</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>prev_losses <span class="op">=</span> LR.loss_history[<span class="op">-</span><span class="dv">10</span>:]</span>
@@ -383,17 +364,12 @@ Accuracy: 1.0</code></pre>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Loss History (Last 10 values):"</span>, prev_losses)</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy:"</span>, accuracy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Weight vector: [0.92254418 0.97990169 0.12097902]
-Loss History (Last 10 values): [0.26949815124089416, 0.2693895582048068, 0.26928132215690764, 0.2691734414180923, 0.26906591431970034, 0.2689587392034342, 0.2688519144212794, 0.26874543833542475, 0.2686393093181836, 0.2685335257519156]
+<pre><code>Weight vector: [1.44281892 1.75619129 0.0405471 ]
+Loss History (Last 10 values): [0.22141524046882058, 0.22141299904135964, 0.2214107598360807, 0.22140852285039425, 0.22140628808171475, 0.22140405552746018, 0.221401825185052, 0.22139959705191528, 0.22139737112547875, 0.22139514740317448]
 Accuracy: 0.895</code></pre>
 </div>
 </div>
-</section>
-<section id="even-though-our-data-is-not-linearly-separable-we-still-achieved-88-accuracy-lets-visualize" class="level4">
-<h4 class="anchored" data-anchor-id="even-though-our-data-is-not-linearly-separable-we-still-achieved-88-accuracy-lets-visualize">Even though our data is not linearly separable, we still achieved 88% accuracy! Let’s visualize:</h4>
-</section>
-<section id="visualize-1" class="level4">
-<h4 class="anchored" data-anchor-id="visualize-1">4. Visualize:</h4>
+<p>Even though our model was not perfect, it still achieved an accuracy of 89%! In many contexts where 100% accuracy is not needed, this can be a very valuable model. To get a better understanding of the model’s performance, lets visualize:</p>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> LR.w</span>
@@ -411,24 +387,37 @@ Accuracy: 0.895</code></pre>
 <p><img src="LR_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
 </div>
 </div>
+<p>From this visualization, we can see that our model does a good job of spitting the data. It is important to note that it is impossible to completely separate the data, so this is the best the algorithm can do. Once again, lets visualize the gradient over the fitting process for our algorithm.</p>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize gradient</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="bu">len</span>(LR.loss_history)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.plot(np.arange(num_steps) <span class="op">+</span> <span class="dv">1</span>, LR.loss_history, label <span class="op">=</span> <span class="st">"gradient"</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>plt.loglog()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="bu">len</span>(LR.loss_history)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>plt.plot(np.arange(num_steps) <span class="op">+</span> <span class="dv">1</span>, LR.loss_history, label <span class="op">=</span> <span class="st">"gradient"</span>)</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>legend <span class="op">=</span> plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>plt.loglog()</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>legend <span class="op">=</span> plt.legend()</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Gradient over fitting process."</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Iteration"</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Loss"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="LR_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
 </div>
 </div>
+<p>Here, we see a clear visual demonstration of the model converging over time, represented by the concavity changing.</p>
 </section>
-</section>
-<section id="experiment-3-choosing-a-learning-rate-that-is-too-high" class="level3">
-<h3 class="anchored" data-anchor-id="experiment-3-choosing-a-learning-rate-that-is-too-high">Experiment 3: Choosing a learning rate that is too high:</h3>
-<section id="create-data-lets-choose-linearly-separable" class="level4">
-<h4 class="anchored" data-anchor-id="create-data-lets-choose-linearly-separable">1. Create data (let’s choose linearly separable)</h4>
+<section id="experiment-3-choosing-a-learning-rate-that-is-too-high" class="level4">
+<h4 class="anchored" data-anchor-id="experiment-3-choosing-a-learning-rate-that-is-too-high">Experiment 3: Choosing a learning rate that is too high:</h4>
+<p>Our next experiment will analyze the impact of setting the learning rate too high for our algorithm. When the learning rate is too high, the model may struggle to converge. Here is an illustration of the different impacts the learning rate can have:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="learning.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Learning Rates</figcaption><p></p>
+</figure>
+</div>
+<p>As the picture shows, there is a sweet spot for choosing the learning rate. If the rate is too low, the model will struggle to converge. On the other hand, if the rate is too high, it will lead to unpredictable behavior and fail to converge. To perform this test, we will once again make sample data using blobs:</p>
 <div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
@@ -437,25 +426,22 @@ Accuracy: 0.895</code></pre>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># make the data</span></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>p_features <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples <span class="op">=</span> <span class="dv">200</span>, n_features <span class="op">=</span> p_features <span class="op">-</span> <span class="dv">1</span>, centers <span class="op">=</span> [(<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>), (<span class="dv">2</span>, <span class="dv">2</span>)])</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples <span class="op">=</span> <span class="dv">200</span>, n_features <span class="op">=</span> p_features <span class="op">-</span> <span class="dv">1</span>, centers <span class="op">=</span> [(<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>), (<span class="dv">1</span>, <span class="dv">1</span>)])</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c <span class="op">=</span> y)</span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Feature 1"</span>)</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>title <span class="op">=</span> plt.gca().set_title(<span class="st">"Non-linearly separable data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="LR_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-</section>
-<section id="fit-our-data.-we-will-purposely-choose-a-very-high-alpha-to-see-how-our-model-reacts" class="level4">
-<h4 class="anchored" data-anchor-id="fit-our-data.-we-will-purposely-choose-a-very-high-alpha-to-see-how-our-model-reacts">2. Fit our data. We will purposely choose a very high alpha to see how our model reacts</h4>
+<p>Next, we can fit our data and examine the results. We will use a learning rate of 50, which is very high.</p>
 <div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LogisticRegression()</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>LR.fit(X, y, <span class="dv">20</span>, <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>LR.fit(X, y, <span class="dv">50</span>, <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="lets-check-our-loss-score-and-history.-we-expect-this-high-alpha-value-to-negatively-impact-our-model" class="level4">
-<h4 class="anchored" data-anchor-id="lets-check-our-loss-score-and-history.-we-expect-this-high-alpha-value-to-negatively-impact-our-model">3. Let’s check our loss, score, and history. We expect this high alpha value to negatively impact our model:</h4>
 <div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> LR.w</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>prev_losses <span class="op">=</span> LR.loss_history[<span class="op">-</span><span class="dv">10</span>:]</span>
@@ -465,14 +451,12 @@ Accuracy: 0.895</code></pre>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Loss History (Last 10 values):"</span>, prev_losses)</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy:"</span>, accuracy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Weight vector: [2.850027   3.00822389 0.84316634]
-Loss History (Last 10 values): [0.021210924821183027, 0.021210594407535185, 0.021210279995358138, 0.021209980850599792, 0.021209696269960256, 0.021209425579808868, 0.021209168135125037, 0.021208923318463236, 0.02120869053894295, 0.021208469231263564]
-Accuracy: 0.995</code></pre>
+<pre><code>Weight vector: [ 0.82359842  1.41773475 -0.11125376]
+Loss History (Last 10 values): [0.5215487069929692, 0.3380265616582681, 0.27244564205307364, 0.42320201073334673, 0.8050801231974287, 1.1561323959909802, 0.552280563562024, 0.38739586285854827, 0.2680592916473756, 0.2587059064341709]
+Accuracy: 0.885</code></pre>
 </div>
 </div>
-</section>
-<section id="however-we-still-achieve-100-accuracy-even-with-an-alpha-set-at-20.-lets-examine-the-gradient" class="level4">
-<h4 class="anchored" data-anchor-id="however-we-still-achieve-100-accuracy-even-with-an-alpha-set-at-20.-lets-examine-the-gradient">However, we still achieve ~100% accuracy even with an alpha set at 20. Let’s examine the gradient:</h4>
+<p>Although the model produces a good accuracy, we can see that the loss history is fairly sporadic. To analyze this further, lets plot the gradient over time:</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize gradient</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="bu">len</span>(LR.loss_history)</span>
@@ -480,18 +464,20 @@ Accuracy: 0.995</code></pre>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>plt.loglog()</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>legend <span class="op">=</span> plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>legend <span class="op">=</span> plt.legend()</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Gradient over fitting process."</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Iteration"</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Loss"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="LR_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
 </div>
 </div>
+<p>Here, we can see the effects of choosing a learning rate that is too high. As we can see, the gradient is unpredictable and does not converge. Consequently, it is important to choose a learning rate that allows for convergence when initializing your model.</p>
 </section>
-<section id="even-though-the-gradient-maintains-the-same-shape-as-a-lower-alpha-there-are-noticeable-bumps-in-the-curve-which-show-the-effects-of-a-higher-alpha." class="level4">
-<h4 class="anchored" data-anchor-id="even-though-the-gradient-maintains-the-same-shape-as-a-lower-alpha-there-are-noticeable-bumps-in-the-curve-which-show-the-effects-of-a-higher-alpha.">Even though the gradient maintains the same shape as a lower alpha, there are noticeable bumps in the curve which show the effects of a higher alpha.</h4>
-</section>
-</section>
-<section id="experiment-4-comparing-stochastic-vs-regular-gradient-descent" class="level3">
-<h3 class="anchored" data-anchor-id="experiment-4-comparing-stochastic-vs-regular-gradient-descent">Experiment 4: Comparing Stochastic vs Regular gradient descent</h3>
+<section id="experiment-4-comparing-stochastic-vs-regular-gradient-descent" class="level4">
+<h4 class="anchored" data-anchor-id="experiment-4-comparing-stochastic-vs-regular-gradient-descent">Experiment 4: Comparing Stochastic vs Regular gradient descent</h4>
+<p>The next experiment we will consider is a case study of Stochastic vs Regular gradient descent. The main difference between the two is that Stochastic descent uses <i>batches</i> during its fitting process. The use of batching enables our model to be more efficient, and it allows for randomness in the data, which hopefully can avoid local minima and find the true minimums of the loss functions.</p>
+<p>First, we will create another instance of our logistic regression class, yet this time we will fit it using the stochastic fit method and plot its loss history. Next, we will do the same thing for normal gradient descent. By doing so, we can analyze how they compare.</p>
 <div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Stochastic gradient descent</span></span>
@@ -513,20 +499,20 @@ Accuracy: 0.995</code></pre>
 <span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>plt.loglog()</span>
 <span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>legend <span class="op">=</span> plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>legend <span class="op">=</span> plt.legend()</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Stochastic vs Normal."</span>)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Iteration"</span>)</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Loss"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="LR_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>As we can see, stochastic gradient descent, while slower, seems to produce a much better output than normal gradient descent. While normal gradient descent seems to eventually converge, stochastic gradient descent is far quicker in its convergence, which could be very important in machine learning applications.</p>
+<p>As we can see, stochastic gradient descent seems to produce a much better output than normal gradient descent. While normal gradient descent seems to eventually converge, stochastic gradient descent is far quicker in its convergence, which could be very important in machine learning applications.</p>
 </section>
-<section id="experiment-5-batch-size-vs-convergence" class="level3">
-<h3 class="anchored" data-anchor-id="experiment-5-batch-size-vs-convergence">Experiment 5: Batch size vs Convergence</h3>
-<section id="in-this-experiment-we-want-to-see-if-batch-size-affects-the-models-convergent" class="level4">
-<h4 class="anchored" data-anchor-id="in-this-experiment-we-want-to-see-if-batch-size-affects-the-models-convergent">In this experiment, we want to see if batch size affects the model’s convergent</h4>
-</section>
-<section id="fit-two-models-one-with-a-small-batch-size-and-another-with-a-large-batch-size" class="level4">
-<h4 class="anchored" data-anchor-id="fit-two-models-one-with-a-small-batch-size-and-another-with-a-large-batch-size">1. Fit two models, one with a small batch size and another with a large batch size</h4>
+<section id="experiment-5-batch-size-vs-convergence" class="level4">
+<h4 class="anchored" data-anchor-id="experiment-5-batch-size-vs-convergence">Experiment 5: Batch size vs Convergence</h4>
+<p>The final experiment deals with optimizing batch size for stochastic gradient descent. Batch size can be important for efficiency and accuracy in this algorithm, so it is important to consider multiple values. To perform this experiment, we will fit two models, one with a small batch size, and another with a large batch size.</p>
 <div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>LR1 <span class="op">=</span> LogisticRegression()</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>LR1.fit_stochastic(X, y, max_epochs <span class="op">=</span> <span class="dv">1000</span>, batch_size <span class="op">=</span> <span class="dv">50</span>, alpha <span class="op">=</span> <span class="fl">.1</span>)</span>
@@ -534,9 +520,7 @@ Accuracy: 0.995</code></pre>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>LR2 <span class="op">=</span> LogisticRegression()</span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>LR2.fit_stochastic(X, y, max_epochs <span class="op">=</span> <span class="dv">1000</span>, batch_size <span class="op">=</span> <span class="dv">5</span>, alpha <span class="op">=</span> <span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="show-convergence-plots" class="level4">
-<h4 class="anchored" data-anchor-id="show-convergence-plots">2. Show convergence plots:</h4>
+<p>Next, we will show the corresponding convergence plots:</p>
 <div class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="bu">len</span>(LR1.loss_history)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>plt.plot(np.arange(num_steps) <span class="op">+</span> <span class="dv">1</span>, LR1.loss_history, label <span class="op">=</span> <span class="st">"Big Batch Size"</span>)</span>
@@ -546,15 +530,17 @@ Accuracy: 0.995</code></pre>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>plt.loglog()</span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>legend <span class="op">=</span> plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>legend <span class="op">=</span> plt.legend()</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Batch Size Convergence."</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Iteration"</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Loss"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="LR_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>After running this experiment multiple times, it is evident that a smaller batch size leads to a quicker convergence than a larger batch size. This result is not intuitive, as one might expect a larger batch size to be more accurate.</p>
+<p>After running this experiment multiple times, it is evident that a smaller batch size leads to a quicker convergence than a larger batch size. This result is not intuitive, as one might expect a larger batch size to be more accurate. Additionally, the smaller batch size uses less data and is mode efficient, which will be important in big ML practices.</p>
 
 
-</section>
 </section>
 </section>
 </section>

@@ -30,7 +30,7 @@ class LogisticRegression:
 
     """
 
-    def fit(self, X, y, alpha=.1, max_epochs=1000):
+    def fit(self, X, y, alpha=.1, max_epochs=10000):
 
         # Get shape of data
         n,p = np.shape(X)
@@ -61,7 +61,7 @@ class LogisticRegression:
             history.append(new_loss)
 
             # Check termination condition
-            if np.isclose(new_loss, prev_loss) or steps >= max_epochs:          
+            if np.isclose(new_loss, prev_loss):         
                 done = True
             else:
                 prev_loss = new_loss
@@ -91,7 +91,7 @@ class LogisticRegression:
     """
 
 
-    def fit_stochastic(self, X, y, batch_size = 10, alpha=.1, max_epochs=1000):
+    def fit_stochastic(self, X, y, batch_size = 10, alpha=.1, max_epochs=20000):
 
        # Get shape of data
         n,p = np.shape(X)
@@ -158,10 +158,10 @@ class LogisticRegression:
     
     def gradient(self, w, X_, y):
         n = len(y)
-        total = 0
-        for i in range(n):
-            total += (self.sigmoid(np.dot(X_[i], w)) - y[i]) * X_[i]
-        return total/n
+        y_pred = self.sigmoid(np.dot(X_, w))
+        diff = y_pred - y
+        total = np.dot(X_.T, diff)
+        return total / n
     
     """
     Predict
